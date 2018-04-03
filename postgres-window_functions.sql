@@ -24,6 +24,8 @@ insert into scores (id, name, score) values
   (9, 'Ashley Watkins', 58),
   (10, 'Eugene Gardner', 69);
 
+SELECT * FROM scores;
+
 
 -- I want to rank students according to their score
 -- first without window function
@@ -77,29 +79,6 @@ INSERT INTO employees(name, gender, salary, department_id) values
 ('Joshua Smith', 'M', 750, 3),
 ('Nancy Mason', 'F', 783, 3);
 
-SELECT d.name, e.gender, avg(salary)
-FROM employees e
-JOIN departments d ON e.department_id = d.id
-GROUP BY GROUPING SETS ((d.name), (d.name, e.gender), ());
-
-SELECT d.name, e.gender, avg(salary)
-FROM employees e
-JOIN departments d ON e.department_id = d.id
-GROUP BY ROLLUP (d.name, e.gender);
-
-
-SELECT d.name, e.gender, avg(salary)
-FROM employees e
-JOIN departments d ON e.department_id = d.id
-GROUP BY GROUPING SETS ((d.name), (e.gender), (d.name, e.gender), ());
-
-
-SELECT d.name, e.gender, avg(salary)
-FROM employees e
-JOIN departments d ON e.department_id = d.id
-GROUP BY CUBE (d.name, e.gender);
-
-
 
 -- I want top three salaries for each department
 -- first without window functions, omg, that's awful
@@ -124,7 +103,7 @@ FROM (
 	FROM departments d
 	JOIN employees e ON e.department_id = d.id
 ) tmp
-WHERE rank <= 3
+WHERE rank <= 4
 ORDER BY 1,3 DESC, 2 ASC;
 
 
@@ -159,7 +138,7 @@ select x,
                                      and unbounded following)
     from generate_series(1, 3) as t(x);
 
--- use case: sum column and current row ration in a single query
+-- use case: sum column and current row ratio in a single query
 select x,
          array_agg(x) over () as frame,
          sum(x) over () as sum,
@@ -197,3 +176,26 @@ SELECT * FROM p;
          lead(x, 1) over w
     from generate_series(1, 15, 2) as t(x)
   window w as (order by x);
+
+
+SELECT d.name, e.gender, avg(salary)
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+GROUP BY GROUPING SETS ((d.name), (d.name, e.gender), ());
+
+SELECT d.name, e.gender, avg(salary)
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+GROUP BY ROLLUP (d.name, e.gender);
+
+
+SELECT d.name, e.gender, avg(salary)
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+GROUP BY GROUPING SETS ((d.name), (e.gender), (d.name, e.gender), ());
+
+
+SELECT d.name, e.gender, avg(salary)
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+GROUP BY CUBE (d.name, e.gender);

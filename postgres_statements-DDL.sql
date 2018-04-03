@@ -16,7 +16,7 @@ CREATE  TABLE employees (
 );
 
 
-CREATE  TABLE reservations (
+CREATE TABLE reservations (
   id SERIAL PRIMARY KEY ,
   employee_id INTEGER NOT NULL REFERENCES employees(id) ON UPDATE CASCADE ON DELETE RESTRICT,
   room_id INTEGER NOT NULL,
@@ -54,3 +54,5 @@ INSERT INTO reservations(employee_id,room_id,reservation_date) VALUES
   (4,4,'2018-07-15'),
   (5,1,'2017-08-31'),
   (5,1,'2018-06-28');
+
+SELECT * FROM reservations;
