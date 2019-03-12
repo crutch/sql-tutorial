@@ -8,3 +8,5 @@ https://blog.codinghorror.com/a-visual-explanation-of-sql-joins/
 https://pgexercises.com/
 
 https://use-the-index-luke.com/
+
+https://www.mockaroo.com/
